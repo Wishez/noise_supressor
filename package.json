@@ -6,7 +6,9 @@
   "license": "ISC",
   "private": true,
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "dev": "gulp",
+    "prod": "gulp deploy"
   },
   "browserify": {
     "transform": [
@@ -37,7 +39,6 @@
     "chalk": "^2.3.0",
     "envify": "^4.0.0",
     "glob": "^7.1.1",
-    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-babel": "^6.1.2",
     "gulp-clean": "^0.3.2",

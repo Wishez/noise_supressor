@@ -1,33 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=PT+Sans:400,700");
-.App {
-  text-align: center; }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px; }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white; }
-
-.App-title {
-  font-size: 1.5em; }
-
-.App-intro {
-  font-size: large; }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg); }
-  to {
-    transform: rotate(360deg); } }
-
 .bigButton {
-  background-color: #f0ca5f; }
+  background-color: #e1b554; }
 
-.imageContainer, .mainInfoHeaderContent, .mainContent {
+.imageContainer, .mainInfoHeaderContent {
   position: relative; }
 
 .closeButton {
@@ -48,7 +23,7 @@
 .closeButton:hover, .imageContainer_fadeIn {
   opacity: 1; }
 
-.mainContent, .controller__input,
+.controller__input,
 .word,
 .registrationFormController__input,
 .logInFormController__input {
@@ -68,13 +43,6 @@
 
 .mainInfo {
   margin-top: 1em; }
-
-.logInFormButtons,
-.registrationFormButtons,
-.logInForm,
-.registrationForm,
-.addWordForm {
-  margin-top: 0.5em; }
 
 .mainContent {
   margin-left: auto;
@@ -107,7 +75,7 @@
 .bigButton {
   padding: 10px 0; }
   .bigButton:hover {
-    background-color: #ecbb30;
+    background-color: #d9a229;
     color: #3b3b3b; }
 
 .closeButton {
@@ -124,21 +92,42 @@
   .closeButton:hover {
     transform: rotate(25deg); }
 
+html, body {
+  box-sizing: border-box; }
+
 body {
   color: #f7f7f7;
   padding: 5% 0;
-  font-size: 18px;
+  font-size: calc(.75rem + 1vw);
   line-height: 135%;
   font-family: 'PT Sans', sans-serif;
-  background-color: #466661; }
+  background-color: #55626e; }
   body * {
     margin: 0;
     border: 0;
     padding: 0;
     outline-color: #6F95B5;
-    box-sizing: border-box; }
+    box-sizing: inherit; }
     body *, body *::after, body *::before {
-      box-sizing: border-box; }
+      box-sizing: inherit; }
+
+.parent {
+  display: flex; }
+  .parent_h-between {
+    justify-content: space-between; }
+  .parent_row {
+    flex-direction: row; }
+  .parent_column {
+    flex-direction: column; }
+  .parent_wrap {
+    flex-wrap: wrap; }
+  .parent_centered {
+    align-items: center;
+    justify-content: center; }
+  .parent_h-centered {
+    justify-content: center; }
+  .parent_v-centered {
+    align-items: center; }
 
 a {
   color: #f7f7f7;
@@ -159,7 +148,7 @@ a {
   font-weight: normal; }
 
 .workPlaceContainer {
-  padding: 1em 1.5em;
+  padding: 2rem 1rem 0 1.5rem;
   min-width: 500px;
   max-width: 500px;
   max-heigth: 450px;
@@ -173,10 +162,9 @@ a {
   padding: 0.6em 1em 0; }
 
 .mainInfoHeaderContent, .mainInfoHeader__title {
-  background-color: #f0ca5f;
+  background-color: #e1b554;
   vertical-align: middle;
   color: #212121;
-  float: left;
   height: 70px; }
 
 .mainInfoHeader__title {
@@ -190,33 +178,59 @@ a {
 .mainInfoHeaderContent {
   left: 2px; }
 
+.relative {
+  position: relative; }
+
+.width_fill {
+  min-width: 100%; }
+
 .mainContent {
-  background-color: #461e4c;
+  background-color: #2c1d0d;
   min-height: 300px;
   max-height: 300px;
-  padding: 1.5em 2em;
+  padding: 1rem 1.5rem 0 2rem;
   overflow: hidden;
   color: #f7f7f7; }
+
+.font-size_base {
+  font-size: 1em; }
+
+.font-weight_light {
+  font-weight: 200; }
+
+.font-weight_semi {
+  font-weight: 600; }
+
+.font-weight_bold {
+  font-weight: 700; }
+
+.margin-top_base {
+  margin-top: 1rem; }
+
+.margin-top_increased {
+  margin-top: 1.5rem; }
 
 .main {
   overflow: auto;
   max-height: 195px;
-  padding-right: 0.3em; }
-
-.main, .controller {
   position: relative;
-  right: -5px; }
+  padding-right: 1rem;
+  padding-left: .5rem;
+  margin-top: 1.5rem;
+  opacity: 0;
+  will-change: opacity; }
+  .main h1, .main h2, .main h3, .main h4 {
+    margin-left: -4px; }
 
 .controller {
-  padding-right: 0.6em; }
+  margin-top: .5rem; }
 
 .wordsList {
   list-style: none; }
 
-.controller__input,
-.registrationFormController__input,
-.logInFormController__input {
-  background-color: transparent; }
+.controller__input {
+  background-color: transparent;
+  margin-top: .25rem; }
 
 .loginFormController, .registrationFormController {
   margin-top: 0.2em; }
@@ -230,7 +244,7 @@ a {
   color: #f7f7f7; }
 
 .formError {
-  color: #f0ca5f; }
+  color: #e1b554; }
 
 .registrationFormController label, .logInFormController label {
   color: #f7f7f7 !important; }
@@ -263,11 +277,6 @@ p, .listArticlesItem__paragraph {
   .removeWord {
     grid-column-start: 3; } }
 
-.mainInfoHeaderContent__button,
-.allowOnThisSiteButton, .removeWord,
-.logInFormButtons__button_name-forgotPassword {
-  cursor: pointer; }
-
 .mainInfoHeaderContent__button {
   padding: 0.4em 0.5em 0.5em;
   border: 1px solid #212121;
@@ -275,7 +284,7 @@ p, .listArticlesItem__paragraph {
 
 .allowOnThisSiteButton, .removeWord {
   text-align: right;
-  color: #f0ca5f; }
+  color: #e1b554; }
 
 .sk-cube-grid {
   width: 80px;
@@ -347,28 +356,18 @@ p, .listArticlesItem__paragraph {
 .logInForm, .registrationForm {
   color: #f7f7f7; }
 
-.main_registration {
-  top: 15px;
-  max-height: 215px; }
-
-.main_signIn {
-  top: 40px; }
-
 /*
  *  STYLE 2
  */
 .main::-webkit-scrollbar-track {
-  border-radius: 10px;
-  background-color: #461e4c; }
+  border-radius: 10px; }
 
 .main::-webkit-scrollbar {
-  width: 12px;
-  background-color: #461e4c; }
+  width: 12px; }
+
+.main::-webkit-scrollbar, .main::-webkit-scrollbar-track {
+  background-color: #55626e; }
 
 .main::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #466661; }
-
-.main {
-  opacity: 0; }
+  background-color: #e1b554; }
