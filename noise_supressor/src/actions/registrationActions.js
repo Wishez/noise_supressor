@@ -1,7 +1,6 @@
-import { 
+import {
  	REGISTER,
- 	REQUEST_REGISTER
- 	
+ 	REQUEST_REGISTRATION
 } from './../constants/registrationTypes.js';
 import {
 	registerUrl
@@ -9,23 +8,23 @@ import {
 import customAjaxRequest, { make_request } from './../constants/ajax.js';
 
 // Показывает обработку регистрации.
-const registering = () => ({
-	type: REQUEST_REGISTER
+const requestRegistration = () => ({
+	type: REQUEST_REGISTRATION
 });
 
 const register = (
-	registered,
-	registerMessage
+	isRegistered,
+	registrationMessage
 ) => ({
 	type: REGISTER,
-	registered: registered,
-	registerMessage: registerMessage
+  isRegistered,
+	registrationMessage
 });
 
 
 
-export const tryRegister = data => dispatch => {	
-	dispatch(registering());
+export const tryRegisterUser = data => dispatch => {
+	dispatch(requestRegistration());
 
 	customAjaxRequest({
 		url: registerUrl,
@@ -39,7 +38,6 @@ export const tryRegister = data => dispatch => {
 		resp => {
 			// Сервер возвращает Вы успешно прошли регистрацию, если пользователь успешно зарегистрировался.
 			// В остальных случаях он возвращает другое сообщение.
-			console.log(resp);
 			dispatch(register(resp.is_registered, resp.message));
 		},
 		(xhr, errmsg, err) => {

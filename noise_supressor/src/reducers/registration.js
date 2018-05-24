@@ -1,13 +1,13 @@
  import {
-	REQUEST_REGISTER,
+	REQUEST_REGISTRATION,
  	REGISTER
- } from './../constants/registrationTypes.js';
+ } from './../constants/registrationTypes';
 
 
 export const initAccountState = {
-	registerMessage: '',
-	isRegistering: false,
-	registered: false
+	registrationMessage: '',
+	isRequesting: false,
+	isRegistered: false
 };
 
 
@@ -16,17 +16,19 @@ const registration = (
 	action
 ) => {
 	switch (action.type) {
-		case REQUEST_REGISTER: 
+    
+		case REQUEST_REGISTRATION:
 			return {
 				...state,
-				isRegistering: true
+				isRequesting: true
 			};
+
 		case REGISTER:
 			return {
 				...state,
-				registered: action.registered,
-				registerMessage: action.registerMessage,
-				isRegistering: false
+				isRegistered: action.isRegistered,
+				registrationMessage: action.registrationMessage,
+				isRequesting: false
 			};
 
 		default:

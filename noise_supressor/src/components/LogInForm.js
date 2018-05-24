@@ -8,7 +8,7 @@ const LogInForm = ({ submitLogInForm, handleSubmit, message, isLogining }) => (
   <form
     id="logInForm"
     onSubmit={handleSubmit(submitLogInForm.bind(this))}
-    className="logInForm parent parent_column"
+    className="logInForm parent parent_column margin-top_base"
   >
     <Field
       component={RenderController}

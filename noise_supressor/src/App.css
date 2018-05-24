@@ -24,9 +24,7 @@
   opacity: 1; }
 
 .controller__input,
-.word,
-.registrationFormController__input,
-.logInFormController__input {
+.word {
   width: 100%; }
 
 .mainInfoHeaderContent, .mainInfoHeader__title {
@@ -98,7 +96,7 @@ html, body {
 body {
   color: #f7f7f7;
   padding: 5% 0;
-  font-size: calc(.75rem + 1vw);
+  font-size: 18px;
   line-height: 135%;
   font-family: 'PT Sans', sans-serif;
   background-color: #55626e; }
@@ -204,6 +202,9 @@ a {
 .font-weight_bold {
   font-weight: 700; }
 
+.margin-top_small {
+  margin-top: .5rem; }
+
 .margin-top_base {
   margin-top: 1rem; }
 
@@ -232,19 +233,43 @@ a {
   background-color: transparent;
   margin-top: .25rem; }
 
-.loginFormController, .registrationFormController {
-  margin-top: 0.2em; }
-
 .controller__input,
-.word,
-.registrationFormController__input,
-.logInFormController__input {
+.word {
   border-bottom: 1px solid #b1b1b1;
-  padding: 0.5em;
-  color: #f7f7f7; }
+  padding: 0.1rem 0.5rem .75rem;
+  color: #f7f7f7;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 250ms; }
+  .controller__input:focus,
+  .word:focus {
+    outline: none;
+    border-color: #e1b554; }
+
+.button {
+  padding: 0.4rem 0.5rem 0.75rem; }
+  .button_yellow {
+    background-color: #e1b554;
+    color: #212121; }
+  .button_red {
+    background-color: #bb4629;
+    color: #f7f7f7; }
+  .button_white {
+    background-color: #f7f7f7; }
+  .button_blueColor {
+    color: #55626e; }
+  .button_redColor {
+    color: #55626e; }
+  .button_blue {
+    background-color: #55626e;
+    color: #f7f7f7; }
+  .button_blackShadow {
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.5); }
+  .button_whiteShadow {
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.25); }
 
 .formError {
-  color: #e1b554; }
+  color: #bb4629;
+  font-weight: bold; }
 
 .registrationFormController label, .logInFormController label {
   color: #f7f7f7 !important; }

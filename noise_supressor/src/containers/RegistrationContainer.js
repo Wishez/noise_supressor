@@ -1,20 +1,32 @@
 import React, {Component} from 'react';
-
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Title from './../components/Title';
 import Registration from './../components/Registration';
-import { tryRegister } from './../actions/registrationActions.js';
+import { tryRegisterUser } from './../actions/registrationActions';
+import {showLogInForm} from './../actions/viewActions';
 
 class RegistrationContainer extends Component {
-	// Переменная для чек-бокса.
+	static propTypes = {
+		dispatch: PropTypes.func.isRequired,
+		isRegistered: PropTypes.bool.isRequired,
+		isRequesting: PropTypes.bool.isRequired,
+		registrationMessage: PropTypes.string.isRequired,
+	}
+
 	state = {
 		knowRules: true
 	}
 
+	openLoginForm = () => {
+		const {dispatch} = this.props;
+
+		dispatch(showLogInForm());
+	}
+
 	submitRegistrationForm = (values, dispatch) => {
-		dispatch(tryRegister(values));
-		
+		dispatch(tryRegisterUser(values));
 	}
 
 	allowRegister = () => {
@@ -30,7 +42,7 @@ class RegistrationContainer extends Component {
 
 		if (callback) callback();
 	}
-	
+
 
 	render() {
 		return (
@@ -38,8 +50,9 @@ class RegistrationContainer extends Component {
 				<Title block='main' text='Sign up to Noise Supressor' />
 				<Registration {...this.props}
 					{...this.state}
-					submitRegistrationForm={this.submitRegistrationForm} 
+					submitRegistrationForm={this.submitRegistrationForm}
 					allowRegister={this.allowRegister}
+					openLoginForm={this.openLoginForm}
 				/>
 			</div>
 		);
@@ -47,20 +60,20 @@ class RegistrationContainer extends Component {
 }
 
 const mapStateToProps = state => {
-	const { 
+	const {
 		registration
 	} = state;
 
-	const { 
-		isRegistering,
-		registered,
-		registerMessage
+	const {
+		isRequesting,
+		isRegistered,
+		registrationMessage
 	} = registration;
-	console.log(registration);
+
 	return {
-		isRegistering,
-		registered,
-		registerMessage
+		isRequesting,
+		isRegistered,
+		registrationMessage
 	};
 }
 

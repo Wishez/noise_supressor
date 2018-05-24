@@ -1,9 +1,10 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Checkbox } from 'semantic-ui-react';
+import BaseButton from './BaseButton'
 import RenderController from './RenderController';
 
-import { 
+import {
 	required,
  	login,
  	loginLength,
@@ -19,12 +20,15 @@ const RegistrationForm = ({
 	allowRegister,
 	knowRules,
 	isRegistering,
-	registerMessage
+	registrationMessage,
+	openLoginForm
 }) => (
 	<form id='registrationForm'
 		onSubmit={handleSubmit(submitRegistrationForm.bind(this))}
-		className='registrationForm'>
+		className='registrationForm margin-top_base'>
 		<Field component={RenderController}
+			label="Username"
+			autocomplete="name"
 			name='username'
 			type='text'
 			block='registrationFormController'
@@ -33,6 +37,8 @@ const RegistrationForm = ({
 			maxLength='24'
 		 />
 		 <Field component={RenderController}
+			label="Password"
+			autocomplete="password"
 		 	name='password'
 		 	type='password'
 		 	block='registrationFormController'
@@ -41,6 +47,8 @@ const RegistrationForm = ({
 			maxLength='30'
 		 />
 		 <Field component={RenderController}
+			label="Repeat Password"
+			autocomplete="password"
 		 	name='repeatedPassword'
 		 	type='password'
 		 	block='registrationFormController'
@@ -49,28 +57,39 @@ const RegistrationForm = ({
 			maxLength='30'
 		 />
 		 <Field component={RenderController}
+			label="Email"
+			autocomplete="email"
 		 	name='email'
 		 	type='email'
 		 	block='registrationFormController'
 			validate={[required, email]}
 			placeholder='Email'
-			maxLength='100'
+			maxLength='150'
 		 />
-		 
-		 <div className='registrationFormController'>
+
+		 <p className='registrationFormController margin-top_small'>
 			 <Checkbox onClick={allowRegister}
 			 	className='registrationFormController__check'
 			    label='You are agree for using your data?'
 			    checked={knowRules} />
-		 </div>
-		 <div className='registrationFormButtons'>
-			{registerMessage ? <span className='formError'>{registerMessage}</span> : ''}
-		 	<Button disabled={!knowRules}
-		 		loading={isRegistering}
-		 		className='registrationFormButtons__submitButton  submit' 
-		 	   	content='Sign up'
-		 	   	size='medium'
-		 	/>
+		 </p>
+		 <div className='registrationFormButtons margin-top_base'>
+				{
+					registrationMessage ?
+						<span className='formError'>{registrationMessage}</span>
+						: ''
+				}
+			 	<Button disabled={!knowRules}
+			 		loading={isRegistering}
+			 		className='registrationFormButtons__submitButton  submit'
+			 	  content='Sign up'
+			 	  size='medium'
+			 	/>
+				<BaseButton
+	 		 	onClick={openLoginForm}
+	 		 	unstyled={true}>
+	 		 	Log in
+	 		 </BaseButton>
 		 </div>
 	</form>
 );
@@ -79,4 +98,3 @@ const RegistrationForm = ({
 export default reduxForm({
 	form: 'registrationForm'
 })(RegistrationForm);
- 
