@@ -1,10 +1,11 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { Button } from "semantic-ui-react";
+import BaseButton from "./BaseButton";
 import RenderController from "./RenderController";
-import { required } from "./../constants/validation.js";
+import { required } from "./../constants/validation";
 
-const LogInForm = ({ submitLogInForm, handleSubmit, message, isLogining }) => (
+const LogInForm = ({ submitLogInForm, handleSubmit, message, isLogining, showRecoverPasswordForm }) => (
   <form
     id="logInForm"
     onSubmit={handleSubmit(submitLogInForm.bind(this))}
@@ -14,11 +15,13 @@ const LogInForm = ({ submitLogInForm, handleSubmit, message, isLogining }) => (
       component={RenderController}
 			label="Username"
       name="username"
+      autoComplete="name"
       type="text"
       block="logInFormController"
       validate={[required]}
       placeholder="shiningfinger"
       maxLength="75"
+      autoComplete="username"
     />
     <Field
       component={RenderController}
@@ -29,22 +32,25 @@ const LogInForm = ({ submitLogInForm, handleSubmit, message, isLogining }) => (
       validate={[required]}
       placeholder="supressForMe2k18"
       maxLength="75"
+      autoComplete="password"
     />
     {message ? (
-      <span className="logInFormController__error formErorr">{message}</span>
+      <p className="formErorr">{message}</p>
     ) : (
       ""
     )}
     <div className="logInFormButtons parent parent_row parent_h-between parent_v-centered parent_wrap margin-top_increased">
       <Button
-        className="logInFormButtons__submitButton submit"
+        className="button_yellow submit"
         content="Sign in"
         loading={isLogining}
         size="medium"
       />
-      <span className="logInFormButtons__button logInFormButtons__button_name-forgotPassword font-weight_light">
+      <BaseButton
+        onClick={showRecoverPasswordForm}
+        unstyled>
         Forgot password?
-      </span>
+      </BaseButton>
     </div>
   </form>
 );

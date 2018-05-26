@@ -23,34 +23,25 @@ const RecoverPasswordForm = ({
 		className='registrationForm margin-top_base'>
 		 <Field component={RenderController}
 			label="Email"
-			autocomplete="email"
+			autoComplete="email"
 		 	name='email'
 		 	type='email'
 			validate={[required, email]}
 			placeholder='Email'
-			maxLength='150'
+			maxLength='150',
+
 		 />
 		 <div className='registrationFormButtons margin-top_base'>
 			  {
           recoverPasswordMessage ?
-            <span className='formError'>{rcoverPasswordMessage}</span>
+            <p className='formError'>{recoverPasswordMessage}</p>
             : ''
         }
   		 	<Button loading={isRequesting}
-  		 		className='registrationFormButtons__submitButton  submit'
+  		 		className='button_yellow shadow_dark submit'
   		 	  content='Recover Password'
   		 	  size='medium'
   		 	/>
-        <BaseButton
-   		 	onClick={openLoginForm}
-   		 	unstyled={true}>
-   		 	 Log in
-   		 </BaseButton>
-        <BaseButton
-   		 	onClick={openLoginForm}
-   		 	unstyled={true}>
-   		 	 Sign in
-   		 </BaseButton>
 		 </div>
 	</form>
 );

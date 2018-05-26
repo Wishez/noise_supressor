@@ -70,7 +70,7 @@ class Button extends Component {
           b: block,
           el: element,
           m: modifier,
-          add: `${!unstyled ? 'button lowCascadingShadow ': ''} ${className ? className: ''}`
+          add: `${!unstyled ? 'button shadow_light': 'button_unstyled color_white'} ${className ? className: ''}`
         })}`}
         {...rest}
       >

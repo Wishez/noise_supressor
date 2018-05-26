@@ -4,7 +4,7 @@ import {
 	ADD_WORD,
 	REMOVE_WORD,
 	THANK_YOU_SERVER
-} from './../constants/actionTypes.js';
+} from './../constants/actions';
 
 const initialWordsState = {
 	userId: 1,
@@ -18,14 +18,14 @@ const initialWordsState = {
 	was_got_new_domain: false
 };
 
-/* 
+/*
  * 1. Requst data for user state.
  * 2. Show loading about.
  * 3. User can remove word.
  * 4. User can add word.
- * 5. is_parsed_data will prevent from 
+ * 5. is_parsed_data will prevent from
  * 	  showoing quantity words.
- * 6. Thank server for has gotten last user data 
+ * 6. Thank server for has gotten last user data
  * 	  and switch his boolean fields by default
  */
 const user = (
@@ -35,7 +35,7 @@ const user = (
 	switch (action.type) {
 		case REQUEST_USER_DATA:
 			window.uuid = action.user_data.uuid;
-			
+
 			return {
 				...state,
 				...action.user_data,
@@ -44,7 +44,7 @@ const user = (
 		case REACHING_USER_DATA:
 			return {
 				...state,
-				is_requesting: true	
+				is_requesting: true
 			};
 		case ADD_WORD:
 			return {
@@ -68,4 +68,3 @@ const user = (
 };
 
 export default user;
-

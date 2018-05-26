@@ -1,8 +1,7 @@
  import {
 	REQUEST_REGISTRATION,
  	REGISTER
- } from './../constants/registrationTypes';
-
+ } from './../constants/registration';
 
 export const initAccountState = {
 	registrationMessage: '',
@@ -16,7 +15,7 @@ const registration = (
 	action
 ) => {
 	switch (action.type) {
-    
+
 		case REQUEST_REGISTRATION:
 			return {
 				...state,

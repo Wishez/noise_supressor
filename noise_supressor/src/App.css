@@ -11,7 +11,7 @@
 .mainContent {
   display: block; }
 
-.navListItem, .mainInfoHeaderContent__button {
+.navListItem {
   display: inline-block; }
 
 .imageContainer {
@@ -30,7 +30,7 @@
 .mainInfoHeaderContent, .mainInfoHeader__title {
   width: 49.7%; }
 
-.logInFormButtons__button_name-forgotPassword, .mainInfoHeaderContent__button {
+.logInFormButtons__button_name-forgotPassword {
   float: right; }
 
 .sk-cube-grid .sk-cube {
@@ -46,7 +46,7 @@
   margin-left: auto;
   margin-right: auto; }
 
-.mainInfoHeaderContent, .formError {
+.formError {
   font-size: 0.88889em; }
 
 .mainTitle {
@@ -124,6 +124,8 @@ body {
     justify-content: center; }
   .parent_h-centered {
     justify-content: center; }
+  .parent_h-end {
+    justify-content: flex-end; }
   .parent_v-centered {
     align-items: center; }
 
@@ -156,9 +158,6 @@ a {
 .mainInfoHeader__title {
   padding-top: 0.6em; }
 
-.mainInfoHeaderContent {
-  padding: 0.6em 1em 0; }
-
 .mainInfoHeaderContent, .mainInfoHeader__title {
   background-color: #e1b554;
   vertical-align: middle;
@@ -170,6 +169,8 @@ a {
   width: calc(33.33% - 1px); }
 
 .mainInfoHeaderContent {
+  padding-right: 1rem;
+  padding-left: 1.5rem;
   width: 66.66%;
   width: calc(66.66% - 1px); }
 
@@ -223,6 +224,12 @@ a {
   .main h1, .main h2, .main h3, .main h4 {
     margin-left: -4px; }
 
+.shadow_dark {
+  box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.5); }
+
+.shadow_light {
+  box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.25); }
+
 .controller {
   margin-top: .5rem; }
 
@@ -245,11 +252,19 @@ a {
     outline: none;
     border-color: #e1b554; }
 
+.color_white {
+  color: #f7f7f7; }
+
 .button {
-  padding: 0.4rem 0.5rem 0.75rem; }
+  padding: 0.5rem 1rem 0.75rem !important;
+  border: 1px solid #212121 !important;
+  cursor: default !important; }
+  .button_unstyled {
+    border: 0;
+    background: transparent; }
   .button_yellow {
-    background-color: #e1b554;
-    color: #212121; }
+    background-color: #e1b554 !important;
+    color: #212121 !important; }
   .button_red {
     background-color: #bb4629;
     color: #f7f7f7; }
@@ -301,11 +316,6 @@ p, .listArticlesItem__paragraph {
     grid-template-columns: 40% 40% 20%; }
   .removeWord {
     grid-column-start: 3; } }
-
-.mainInfoHeaderContent__button {
-  padding: 0.4em 0.5em 0.5em;
-  border: 1px solid #212121;
-  margin-top: 0.3em; }
 
 .allowOnThisSiteButton, .removeWord {
   text-align: right;

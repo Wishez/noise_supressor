@@ -10,8 +10,8 @@ export const cookiesHandler = {
 		{
 			username: localStorage.getItem(`supressorUsername`),
 			password: localStorage.getItem(`supressorPassword`)
-			
-	
+
+
 		}
 	),
 	clearCookies: () => {
@@ -26,6 +26,14 @@ export const convertDate = date => {
 		hour: 'numeric',
 		minute: 'numeric',
 		second: 'numeric'
-	});	
+	});
 };
 
+export const ID = function() {
+  return (
+    "_" +
+    Math.random()
+      .toString(36)
+      .substr(2, 9)
+  );
+};

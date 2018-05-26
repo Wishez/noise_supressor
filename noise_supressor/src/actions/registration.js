@@ -1,13 +1,12 @@
 import {
  	REGISTER,
  	REQUEST_REGISTRATION
-} from './../constants/registrationTypes.js';
+} from './../constants/registrationTypes';
 import {
 	registerUrl
-} from './../constants/conf.js';
-import customAjaxRequest, { make_request } from './../constants/ajax.js';
+} from './../constants/conf';
+import customAjaxRequest, { make_request } from './../constants/ajax';
 
-// Показывает обработку регистрации.
 const requestRegistration = () => ({
 	type: REQUEST_REGISTRATION
 });

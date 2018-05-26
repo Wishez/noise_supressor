@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import user from './user.js';
-import registration from './registration.js';
-import account from './account.js';
-import view from './view.js';
+import user from './user';
+import registration from './registration';
+import account from './account';
+import views from './views';
 import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
 	form: formReducer,
 	registration,
 	account,
-	view
+	views
 });
 
 export default rootReducer;

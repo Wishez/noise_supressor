@@ -1,21 +1,20 @@
 import { change } from 'redux-form';
-
 import {
 	REQUEST_USER_DATA,
 	REACHING_USER_DATA,
 	ADD_WORD,
 	REMOVE_WORD,
 	THANK_YOU_SERVER
-} from './../constants/actionTypes.js';
+} from './../constants/actions';
 
-import customAjaxRequest, { make_request } from './../constants/ajax.js';
-import { 
+import customAjaxRequest, { make_request } from './../constants/ajax';
+import {
 	setUserStateUrl,
 	removeWordUrl,
 	addWordUrl,
 	thankYouServerUrl,
 	userDataForPluginUrl
-} from './../constants/conf.js';
+} from './../constants/conf';
 
 const thankYouServer = () => ({
 	type: THANK_YOU_SERVER
@@ -42,14 +41,14 @@ const requestUserData = user_data => ({
 
 
 const make_action = ({
-	createdAction, 
+	createdAction,
 	success,
 	failure,
 	url,
 	data
 }) => dispatch => {
 	dispatch(createdAction);
-	
+
 	customAjaxRequest({
 		type: 'POST',
 		url,
@@ -58,18 +57,17 @@ const make_action = ({
 		cache: true
 	});
 
-	return make_request(success, 
+	return make_request(success,
 	failure);
 
 };
 
 export const tryRemoveWord = (words, word, uuid) => dispatch => {
-	dispatch( 
+	dispatch(
 		make_action({
 			createdAction: (function() {
-				// Cache index.
 				const index = words.indexOf(word);
-				// Create the action.
+
 				return removeWord(
 					[...words.slice(0, index), ...words.slice(index + 1)]
 				);
@@ -85,46 +83,56 @@ export const tryRemoveWord = (words, word, uuid) => dispatch => {
 			failure: (xhr, errmsg, err) => {
 				console.log(err);
 			}
-		}) 
+		})
 	);
 };
 
 export const tryAddWord = (words, word, uuid) => dispatch => {
 	if ( words.indexOf(word) !== -1 ) {
-		dispatch(change('addWordForm', 'word', ''));
+		dispatch(
+			change('addWordForm', 'word', '')
+		);
+
 		return false;
-	} 
+	}
+
+	const updatedWords = [...words.slice(0), word];
+
 	dispatch(
 			make_action({
-			createdAction: addWord( [...words.slice(0), word] ),
-			url: addWordUrl,
-			data: {
-				word,
-				uuid
-			},
-			success: response =>  {
-				dispatch(change('addWordForm', 'word', ''));
-			},
-			failure: (xhr, errmsg, err) => {
-				console.log(err);
-			}
+				createdAction: addWord(updatedWords),
+				url: addWordUrl,
+				data: {
+					word,
+					uuid
+				},
+
+				success: response =>  {
+					dispatch(
+						change('addWordForm', 'word', '')
+					);
+				},
+
+				failure: (xhr, errmsg, err) => {
+					console.log(err);
+				}
 		})
 	);
 };
-// Test action. In futer, i will get data with logining.
+
+
 export const getUserData = uuid => dispatch => {
 	dispatch(showDataRequesting());
+	
 	return fetch(`${userDataForPluginUrl}${uuid}/`)
 		.then(resp => resp.json())
-		.then(data => { 
-			dispatch(requestUserData(data))
+		.then(userData => {
+			dispatch(requestUserData(userData))
 		})
 		.catch(err => {
 			console.log(err);
 		});
 };
-
-
 
 export const setUserCurrentSite_test = () => {
 	customAjaxRequest({
@@ -139,7 +147,7 @@ export const setUserCurrentSite_test = () => {
 
 	return make_request(resp => {
 		console.log(resp)
-	}, 
+	},
 	(xhr, errmsg, err) => {
 		console.log(err);
 	})
@@ -159,7 +167,7 @@ export const setUserQuantity_test = () => {
 
 	return make_request(resp => {
 		console.log(resp);
-	}, 
+	},
 	(xhr, errmsg, err) => {
 		console.log(err);
 	})

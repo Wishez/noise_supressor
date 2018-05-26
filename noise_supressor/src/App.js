@@ -3,19 +3,22 @@ import { connect } from "react-redux";
 import { TweenLite } from "gsap";
 
 import "./App.css";
+import BaseButton from './components/BaseButton'
 import Loader from "./components/Loader";
 import WordsList from "./components/WordsList";
 import AddWordForm from "./components/AddWordForm";
 import LogInContainer from "./containers/LogInContainer";
-import RegistrationContainer from "./containers/RegistrationContainer.js";
-import { tryChangeUserAvatar } from "./actions/accountActions.js";
-import { tryAddWord, tryRemoveWord } from "./actions/userActions.js";
-import { tryLogOut } from "./actions/accountActions.js";
+import RegistrationContainer from "./containers/RegistrationContainer";
+
+import { tryChangeUserAvatar, tryLogOut } from "./actions/account";
+import { tryAddWord, tryRemoveWord } from "./actions/user";
+import viewsNames from './constants/views';
 import {
-  showLogInForm,
-  showRegistrationForm,
-  setSomthingShown
-} from "./actions/viewActions.js";
+  setViewShown,
+  showView
+} from "./actions/views";
+
+
 
 class App extends Component {
   componentDidMount() {
@@ -26,15 +29,15 @@ class App extends Component {
 
   componentDidUpdate() {
     const { didFadeIn, dispatch } = this.props;
+    const {main} = this.refs;
 
-    let node = document.querySelector(".main");
 
-    if (!didFadeIn && node) {
+    if (!didFadeIn && main) {
       TweenLite.to(node, 1.2, {
         opacity: 1
       });
 
-      dispatch(setSomthingShown());
+      dispatch(setViewShown());
     }
   }
 
@@ -54,6 +57,7 @@ class App extends Component {
 
   logOut = () => {
     const { dispatch } = this.props;
+
     dispatch(tryLogOut());
   };
 
@@ -68,11 +72,17 @@ class App extends Component {
     dispatch(tryChangeUserAvatar(data));
   };
 
-  switchView = actionCreator => () => {
+  switchView = viewName => () => {
     const { dispatch } = this.props;
 
-    dispatch(actionCreator());
-  };
+    dispatch(showView(viewName));
+  }
+
+  isShown = (viewName) => {
+    const {shownViewName} = this.props;
+
+    return shownViewName === viewName;
+  }
 
   render() {
     const {
@@ -80,72 +90,73 @@ class App extends Component {
       is_requesting,
       isLogged,
       isShownRegistrationForm,
-      isShownLogInForm
+      shownViewName
     } = this.props;
+    const {isShown} = this;
+    const {login, registration} = viewsNames;
+
+    const isShownLogInForm = isShown(login);
+    const isShownRegistrationForm = isShown(registration);
 
     return (
       <div className="workPlaceContainer">
         <p className="mainTitle">Which a noise do you want to drown out?</p>
 
-        <div className="mainInfo width_fill">
+        <div className="mainInfo width_fill shadow_dark">
           <header id="header" className="mainInfoHeader parent parent_row">
             <h1 className="mainInfoHeader__title font-size_base">
               Noise<br />supressor
             </h1>
-            <div className="mainInfoHeaderContent">
+            <div className="mainInfoHeaderContent parent parent_row parent_v-centered parent_h-end">
               {isLogged ? (
-                <span
-                  className="mainInfoHeaderContent__button"
+                <BaseButton
                   onClick={this.logOut}
                 >
                   Sign out
-                </span>
+                </BaseButton>
               ) : (
                 ""
               )}
+              {(isShownLogInForm || isShownRegistrationForm)
+                && !isLogged ?
+                  <BaseButton
+                    onClick={this.switchView(
+                      isShownLogInForm ?
+                        registration
+                        : login
+                    )}
+                  >
+                    {isShownLogInForm ? 'Sing up' : 'Sing in'}
+                  </BaseButton>
 
-              {isShownRegistrationForm ? (
-                <span
-                  className="mainInfoHeaderContent__button"
-                  onClick={this.switchView(showLogInForm)}
-                >
-                  Sing in
-                </span>
-              ) : (
-                ""
-              )}
-              {isShownLogInForm && !isLogged ? (
-                <span
-                  className="mainInfoHeaderContent__button"
-                  onClick={this.switchView(showRegistrationForm)}
-                >
-                  Sing up
-                </span>
-              ) : (
-                ""
-              )}
+              : ""}
             </div>
           </header>
 
           <main className="mainContent relative">
-            {isLogged ? <AddWordForm onSubmit={this.addWordFormSubmit} /> : ""}
+            {isLogged ?
+              <AddWordForm onSubmit={this.addWordFormSubmit} />
+              : ""}
+
             {isLogged ? (
               !is_requesting ? (
-                <div className="main">
+                <div ref="main" className="main">
                   <WordsList words={words} removeWord={this.removeWord} />
                 </div>
-              ) : (
+              )
+              : (
                 <Loader className="wordsLoading" />
               )
+            )
+            : ""}
+
+            {!isLogged ? (
+              isShownRegistrationForm ?
+                <RegistrationContainer />
+                : <LogInContainer />
             ) : (
               ""
             )}
-            {isShownRegistrationForm && !isLogged ? (
-              <RegistrationContainer />
-            ) : (
-              ""
-            )}
-            {isShownLogInForm && !isLogged ? <LogInContainer /> : ""}
           </main>
         </div>
       </div>
@@ -158,20 +169,16 @@ const mapStateToProps = state => {
   const { words, is_requesting } = user;
   const { uuid, isLogged } = account;
   const {
-    isShownRegistrationForm,
-    isShownWordsList,
-    isShownLogInForm,
+    shownViewName,
     didFadeIn
-  } = view;
+  } = views;
 
   return {
     uuid,
     words,
     is_requesting,
     isLogged,
-    isShownRegistrationForm,
-    isShownWordsList,
-    isShownLogInForm,
+    shownViewName,
     didFadeIn
   };
 };

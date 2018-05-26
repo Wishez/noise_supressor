@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Checkbox } from 'semantic-ui-react';
-import BaseButton from './BaseButton'
+
 import RenderController from './RenderController';
 
 import {
@@ -28,7 +28,7 @@ const RegistrationForm = ({
 		className='registrationForm margin-top_base'>
 		<Field component={RenderController}
 			label="Username"
-			autocomplete="name"
+			autoComplete="name"
 			name='username'
 			type='text'
 			block='registrationFormController'
@@ -38,7 +38,7 @@ const RegistrationForm = ({
 		 />
 		 <Field component={RenderController}
 			label="Password"
-			autocomplete="password"
+			autoComplete="password"
 		 	name='password'
 		 	type='password'
 		 	block='registrationFormController'
@@ -48,7 +48,7 @@ const RegistrationForm = ({
 		 />
 		 <Field component={RenderController}
 			label="Repeat Password"
-			autocomplete="password"
+			autoComplete="password"
 		 	name='repeatedPassword'
 		 	type='password'
 		 	block='registrationFormController'
@@ -58,7 +58,7 @@ const RegistrationForm = ({
 		 />
 		 <Field component={RenderController}
 			label="Email"
-			autocomplete="email"
+			autoComplete="email"
 		 	name='email'
 		 	type='email'
 		 	block='registrationFormController'
@@ -81,15 +81,10 @@ const RegistrationForm = ({
 				}
 			 	<Button disabled={!knowRules}
 			 		loading={isRegistering}
-			 		className='registrationFormButtons__submitButton  submit'
+			 		className='button shadow_dark button_yellow'
 			 	  content='Sign up'
 			 	  size='medium'
 			 	/>
-				<BaseButton
-	 		 	onClick={openLoginForm}
-	 		 	unstyled={true}>
-	 		 	Log in
-	 		 </BaseButton>
 		 </div>
 	</form>
 );

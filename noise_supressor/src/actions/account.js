@@ -1,7 +1,7 @@
-import { 
+import {
 	LOGIN,
  	LOGOUT,
- 	RECOVER_PASSWORD, 
+ 	RECOVER_PASSWORD,
  	CHANGE_EMAIL,
  	CHANGE_PASSWORD,
  	REQUEST_LOGIN_IN,
@@ -9,7 +9,7 @@ import {
  	REQUEST_IN_PERSONAL_ROOM,
  	SUBSCRIBE,
  	CHANGE_USER_AVATAR
-} from './../constants/accountTypes.js';
+} from './../constants/account';
 import {
 	loginUrl,
 	changePasswordUrl,
@@ -18,40 +18,42 @@ import {
 	changeUserAvatarUrl,
 	subscribeUrl,
 	logOutUrl
-} from './../constants/conf.js';
-import customAjaxRequest, { make_request } from './../constants/ajax.js';
-import { convertDate } from './../constants/pureFunctions.js';
+} from './../constants/conf';
+import customAjaxRequest, { make_request } from './../constants/ajax';
+import { convertDate } from './../constants/pureFunctions';
 import { change } from 'redux-form';
-import { getUserData } from './userActions.js';
-import { 
+import { getUserData } from './user';
+import {
 	showWordsList,
-	showLogInForm 
-} from './viewActions.js';
-/* User 
- * 
+	showLogInForm
+} from './views';
+
+/* User
+ *
  * username
  * password
  * UserData will get to request to server as object.
- * { 
+ * {
  *  username
  * 	email:　string,
  * 	status: date or string,
  * 	balance: number,
- * 	avatar: url  
+ * 	avatar: url
  * }
  */
-const logIn = (
-	data,
-	userData,
-	isLogged,
-	message
-) => ({
+const logIn = ({
+		username,
+		password,
+		message,
+		isLogged,
+		userData
+	}) => ({
 	type: LOGIN,
 	isLogged,
 	...userData,
 	registered: isLogged,
-	username: data.username,
-	password: data.password,
+	username,
+	password,
 	message
 });
 
@@ -60,27 +62,26 @@ const loggining = () => ({
 	type: REQUEST_LOGIN_IN
 });
 
-// Аргумент data - это логин и пароль 
-// входящего в свой аккаунт пользователя,
-// используещего форму logInForm.
+
 const setUserToCookies = (
-	data
+	username,
+	password
 ) => ({
 	type: SET_USER_TO_COOKIES,
-	username: data.username,
-	password: data.password
+	username,
+	password
 });
 
 // Делает запрос на сервер, после изменяет состояние приложения
 // в зависимости от ответа сервера.
 export const tryLogin = data => dispatch => {
 	dispatch(change('logInForm', 'username', data.username))
-    dispatch(change('logInForm', 'password', data.password));
+  dispatch(change('logInForm', 'password', data.password));
 
 	const empty_data = {
 		username: '',
 		password: ''
-	};	
+	};
 
 	dispatch(loggining());
 
@@ -91,31 +92,51 @@ export const tryLogin = data => dispatch => {
         processData: true,
         cache: true
 	});
-	return make_request(userData => {
-			if (typeof userData === 'object') {
-				// Меняет состояние на удачный заход пользователя в аккаунт
-				dispatch(logIn(data, userData, true, ''));
-				dispatch(setUserToCookies(data))
-				dispatch(getUserData(userData.uuid));
-				// Показывает список слов пользователя после того,
-				// как пользователь успешно зашёл в свой аккаунт.
+	return make_request(response => {
+			if (typeof v === 'object') {
+				const userCredentials  = {
+					username: data.username,
+					password: data.password
+				};
+				const userUuid = response.uuid;
+
+				dispatch(
+					logIn({
+						isLogged: true,
+						message: '',
+						userData: response,
+						...userCredentials
+					})
+				);
+				dispatch(
+					setUserToCookies(userCredentials)
+				);
+				dispatch(getUserData(userUuid));
 				dispatch(showWordsList());
 			} else {
 				// Меняется только сообщение в состояние аккаунта,
-				// не устанавливая неправильно введённый или 
+				// не устанавливая неправильно введённый или
 				// не подходящий логин с паролем.
-				dispatch(logIn(empty_data, {}, false, userData));	
+				dispatch(
+					logIn({
+						...empty_data	,
+						userData: {},
+						isLogged: false,
+						message: response
+					})
+				);
 			}
 
 		},
 		(xhr, errmsg, err) => {
-			dispatch(logIn(
-				empty_data, 
-				{},
-				false, 
-				'Внутренняя ошибка сервера',
-				''
-			));	
+			dispatch(
+				logIn({
+					...empty_data	,
+					userData: {},
+					isLogged: false,
+					message: 'Внутренняя ошибка сервера'
+				})
+		);
 		});
 };
 
@@ -165,15 +186,18 @@ export const tryChangeAccountPassword = data => dispatch => {
 	const newPassword = data.newPassword;
 
 	if (data.currentPassword !== oldPassword) {
-		dispatch(changePassword(
-			'Неправильный текущий пароль', 
-			oldPassword
-		));
+		dispatch(
+			changePassword(
+				'Неправильный текущий пароль',
+				oldPassword
+			)
+		);
+
 		return false;
 	} else if (newPassword !== data.newPasswordRepeated) {
 		// Проверяется совпадение паролей.
 		dispatch(changePassword(
-			'Пароли не совпадают', 
+			'Пароли не совпадают',
 			oldPassword
 		));
 		return false;
@@ -185,11 +209,11 @@ export const tryChangeAccountPassword = data => dispatch => {
 		type: 'POST',
 		cache: true
 	});
-	
+
     return make_request(
     	changePasswordMessage => {
 			dispatch(changePassword(
-				changePasswordMessage, 
+				changePasswordMessage,
 				newPassword
 			));
 			dispatch(setUserToCookies(
@@ -237,13 +261,13 @@ export const tryChangeAccountEmail = data => dispatch => {
 	return make_request(
 		changeEmailMessage => {
 			dispatch(changeEmail(
-				changeEmailMessage, 
+				changeEmailMessage,
 				data.newEmail
 			));
-		}, 
+		},
 		(xhr, errmsg, err) => {
 			dispatch(changeEmail(
-				'Внутрянняя ошибка сервера', 
+				'Внутрянняя ошибка сервера',
 				oldEmail
 			));
 		}
@@ -256,9 +280,7 @@ const subscribe = (
 ) => ({
 	type: SUBSCRIBE,
 	subscribeMessage,
-	userData: {
-		...userData
-	}
+	userData
 });
 
 
@@ -288,7 +310,7 @@ export const trySubscribeAccount = data => dispatch => {
 			dispatch(subscribe('Внутрянняя ошибка сервера'));
 		}
 	);
-    
+
 };
 
 export const tryReplanishAccountBalance = data => dispatch => {
@@ -312,10 +334,10 @@ export const tryChangeUserAvatar =  data => dispatch => {
 
 	customAjaxRequest({
 		url: changeUserAvatarUrl,
-		data: validData, 
+		data: validData,
 		type: 'POST',
 		dataType: 'json',
-        processData: false, 
+        processData: false,
        	contentType: false
     });
 

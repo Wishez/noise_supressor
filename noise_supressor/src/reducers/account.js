@@ -1,7 +1,7 @@
  import {
 	LOGIN,
  	LOGOUT,
- 	RECOVER_PASSWORD, 
+ 	RECOVER_PASSWORD,
  	CHANGE_EMAIL,
  	CHANGE_PASSWORD,
  	REPLANISH_BALANCE,
@@ -10,15 +10,14 @@
  	REQUEST_IN_PERSONAL_ROOM,
  	SUBSCRIBE,
  	CHANGE_USER_AVATAR
- } from './../constants/accountTypes.js';
-import { cookiesHandler } from './../constants/pureFunctions.js';
+ } from './../constants/account';
+import { cookiesHandler } from './../constants/pureFunctions';
 
 export const initAccountState = {
 	username: '',
 	password: '',
 	isLogged: false,
 	uuid: "",
-	// Обычное message для формы входа.
 	message: '',
 	registerMessage: '',
 	changeEmailMessage: '',
@@ -26,11 +25,7 @@ export const initAccountState = {
 	subscribeMessage: '',
 	replanishBalanceMessage: '',
 	recoverPasswordMessage: '',
-	registered: false,
-	isLogining: false,
-	// Распространяется на все кнопки личного кабинета.
-	// А также присуще кнопке восстановления пароль.
-	isChanging: false
+	isRequesting: false,
 };
 
 
@@ -57,15 +52,15 @@ const account = (
 				...initAccountState
 			};
 		case REQUEST_IN_PERSONAL_ROOM:
-			return { 
+			return {
 				...state,
-				isChanging: true
+				isRequesting: true
 			};
 		case RECOVER_PASSWORD:
 			return {
 				...state,
 				recoverPasswordMessage: action.recoverPasswordMessage,
-				isChanging: false
+				isRequesting: false
 			};
 		case CHANGE_EMAIL:
 			return {
@@ -75,7 +70,7 @@ const account = (
 					email: action.email
 				},
 				changeEmailMessage: action.changeEmailMessage,
-				isChanging: false
+				isRequesting: false
 
 			};
 		case CHANGE_PASSWORD:
@@ -83,13 +78,13 @@ const account = (
 				...state,
 				password: action.password,
 				changePasswordMessage: action.changePasswordMessage,
-				isChanging: false
+				isRequesting: false
 			};
 		case SUBSCRIBE:
 			return {
 				...state,
 				subscribeMessage: action.subscribeMessage,
-				isChanging: false,
+				isRequesting: false,
 				userData: {
 					...state.userData,
 					...action.userData
@@ -101,7 +96,7 @@ const account = (
 				...state,
 				replanishBalanceMessage: action.replanishBalanceMessage
 			};
-		case CHANGE_USER_AVATAR: 
+		case CHANGE_USER_AVATAR:
 			return {
 				...state,
 				userData: {
@@ -110,7 +105,7 @@ const account = (
 				}
 			};
 		case SET_USER_TO_COOKIES:
-			/* Если пользователь удачно залогинился, то 
+			/* Если пользователь удачно залогинился, то
 			 * пароль и логин кэшируются.
 			 * В action указан {
 			 * 		username: string,
